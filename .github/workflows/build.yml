@@ -19,7 +19,6 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install -y dpkg-dev
-
     - name: Build Package
       run: |
         VERSION=$(git describe --tags --abbrev=0 2>/dev/null || echo "1.0")
@@ -36,13 +35,11 @@ jobs:
         Description: WeePreferenceLoader tool
         EOF
         dpkg-deb --build deb "wee-preference-loader-${VERSION}.deb"
-        ls -l "wee-preference-loader-${VERSION}.deb"
-
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
       with:
         name: wee-preference-loader
-        path: "wee-preference-loader.deb"
+        path: "wee-preference-loader-*.deb"
 
     - name: Push Git Tag
       run: |
@@ -50,9 +47,3 @@ jobs:
         git config user.email "anhduong28@live.com"
         git tag "v$VERSION"
         git push origin "v$VERSION"
-        
-    - name: Create GitHub Release and Upload .deb
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        gh release create "v1.1.0" "wee-preference-loader.deb" --title "wee-preference-loader 1.1.0" --notes "Release version 1.1.0"    

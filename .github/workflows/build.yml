@@ -49,3 +49,9 @@ jobs:
         git config user.email "anhduong28@live.com"
         git tag "v$VERSION"
         git push origin "v$VERSION"
+        
+    - name: Create GitHub Release and Upload .deb
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        gh release create "v$VERSION" "wee-preference-loader-${VERSION}.deb" --title "wee-preference-loader $VERSION" --notes "Release version $VERSION"    

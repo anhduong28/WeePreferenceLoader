@@ -24,7 +24,7 @@ jobs:
       run: |
         VERSION=$(git describe --tags --abbrev=0 2>/dev/null || echo "1.0")
         mkdir -p deb/usr/local/bin
-        cp -r * deb/usr/local/bin/
+        find . -maxdepth 1 ! -name 'deb' ! -name '.' ! -name '.git' -exec cp -r {} deb/usr/local/bin/ \;
         mkdir -p deb/DEBIAN
         cat <<EOF > deb/DEBIAN/control
         Package: wee-preference-loader

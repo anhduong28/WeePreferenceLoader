@@ -1,0 +1,44 @@
+name: Build and Package to DEB
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Install Dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y dpkg-dev
+
+    - name: Build Package
+      run: |
+        VERSION=$(git describe --tags --abbrev=0 || echo "1.0")
+        mkdir -p deb/usr/local/bin
+        cp -r . deb/usr/local/bin/
+        mkdir -p deb/DEBIAN
+        cat <<EOF > deb/DEBIAN/control
+        Package: wee-preference-loader
+        Version: $VERSION
+        Section: base
+        Priority: optional
+        Architecture: all
+        Maintainer: Your Name <your-email@example.com>
+        Description: WeePreferenceLoader tool
+        EOF
+        dpkg-deb --build deb "wee-preference-loader-${VERSION}.deb"
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: wee-preference-loader
+        path: "wee-preference-loader-*.deb"

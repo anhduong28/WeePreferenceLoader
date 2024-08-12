@@ -1,4 +1,4 @@
-name: Build and Package to DEB
+name: Build, Package, and Release
 
 on:
   push:
@@ -32,7 +32,7 @@ jobs:
         Section: base
         Priority: optional
         Architecture: all
-        Maintainer: Your Name <your-email@example.com>
+        Maintainer: Anh Duong <anhduong28@live.com>
         Description: WeePreferenceLoader tool
         EOF
         dpkg-deb --build deb "wee-preference-loader-${VERSION}.deb"
@@ -42,3 +42,10 @@ jobs:
       with:
         name: wee-preference-loader
         path: "wee-preference-loader-*.deb"
+
+    - name: Push Git Tag
+      run: |
+        git config user.name "anhduong28"
+        git config user.email "anhduong28@live.com"
+        git tag "v$VERSION"
+        git push origin "v$VERSION"

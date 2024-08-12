@@ -36,6 +36,7 @@ jobs:
         Description: WeePreferenceLoader tool
         EOF
         dpkg-deb --build deb "wee-preference-loader-${VERSION}.deb"
+        ls -l "wee-preference-loader-${VERSION}.deb"
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v2

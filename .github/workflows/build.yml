@@ -42,7 +42,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: wee-preference-loader
-        path: "wee-preference-loader-*.deb"
+        path: "wee-preference-loader-1.1.0.deb"
 
     - name: Push Git Tag
       run: |
@@ -55,4 +55,4 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        gh release create "v$VERSION" "wee-preference-loader-${VERSION}.deb" --title "wee-preference-loader $VERSION" --notes "Release version $VERSION"    
+        gh release create "v1.1.0" "wee-preference-loader-1.1.0.deb" --title "wee-preference-loader 1.1.0" --notes "Release version 1.1.0"    
